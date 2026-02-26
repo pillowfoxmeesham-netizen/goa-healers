@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: goa-healers-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    plan: free
+    envVars:
+      - key: MONGO_URL
+        sync: false  # Set manually in Render dashboard
+      - key: DB_NAME
+        value: goa_healers
+      - key: CORS_ORIGINS
+        sync: false  # Set to your Vercel URL after deploying frontend
+      - key: PYTHON_VERSION
+        value: "3.11.0"
