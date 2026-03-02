@@ -19,7 +19,7 @@ L.Icon.Default.mergeOptions({
 
 // Custom icon for healers
 const healerIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -84,7 +84,7 @@ export function HealerMap({ healers, selectedHealer, onHealerSelect, onRate }) {
               <Popup>
                 <div className="p-2 min-w-[280px] max-w-[320px]" data-testid={`popup-healer-${healer.id}`}>
                   <div className="flex items-start gap-2 mb-3">
-                    <User className="w-5 h-5 text-purple-600 mt-1 flex-shrink-0" />
+                    <User className="w-5 h-5 text-emerald-600 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-bold text-lg leading-tight" data-testid={`popup-name-${healer.id}`}>{healer.name}</h3>
                     </div>
@@ -142,7 +142,7 @@ export function HealerMap({ healers, selectedHealer, onHealerSelect, onRate }) {
 
                       {healer.uid && (
                         <div className="flex items-start gap-2">
-                          <IdCard className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                          <IdCard className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
                           <span className="text-xs text-gray-600 font-mono">{healer.uid}</span>
                         </div>
                       )}

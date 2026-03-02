@@ -25,7 +25,7 @@ const initialForm = {
 };
 
 const inputClasses =
-    'flex h-9 w-full rounded-md border border-purple-200/40 dark:border-purple-800/30 bg-transparent px-3 py-1 text-sm shadow-sm transition-all placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/30 focus-visible:border-purple-400';
+    'flex h-9 w-full rounded-md border border-emerald-200/40 dark:border-emerald-800/30 bg-transparent px-3 py-1 text-sm shadow-sm transition-all placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/30 focus-visible:border-emerald-400';
 
 export function AddHealerForm({ onSubmit }) {
     const [open, setOpen] = useState(false);
@@ -88,7 +88,7 @@ export function AddHealerForm({ onSubmit }) {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-md btn-press"
+                    className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-md btn-press"
                     data-testid="add-healer-button"
                 >
                     <Plus className="w-4 h-4 mr-2" />
@@ -98,7 +98,7 @@ export function AddHealerForm({ onSubmit }) {
             <DialogContent className="sm:max-w-[520px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2 text-xl">
-                        <UserPlus className="w-5 h-5 text-purple-500" />
+                        <UserPlus className="w-5 h-5 text-emerald-500" />
                         Add New Healer
                     </DialogTitle>
                     <DialogDescription>
@@ -119,7 +119,7 @@ export function AddHealerForm({ onSubmit }) {
                                     <img
                                         src={photoPreview}
                                         alt="Preview"
-                                        className="w-20 h-20 rounded-xl object-cover border-2 border-purple-200 dark:border-purple-800 shadow-md"
+                                        className="w-20 h-20 rounded-xl object-cover border-2 border-emerald-200 dark:border-emerald-800 shadow-md"
                                     />
                                     <button
                                         type="button"
@@ -132,9 +132,9 @@ export function AddHealerForm({ onSubmit }) {
                             ) : (
                                 <div
                                     onClick={() => fileInputRef.current?.click()}
-                                    className="w-20 h-20 rounded-xl border-2 border-dashed border-purple-300 dark:border-purple-700 flex flex-col items-center justify-center cursor-pointer hover:border-purple-500 hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-all"
+                                    className="w-20 h-20 rounded-xl border-2 border-dashed border-emerald-300 dark:border-emerald-700 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 transition-all"
                                 >
-                                    <Camera className="w-6 h-6 text-purple-400" />
+                                    <Camera className="w-6 h-6 text-emerald-400" />
                                     <span className="text-[10px] text-muted-foreground mt-1">Add Photo</span>
                                 </div>
                             )}
@@ -151,7 +151,7 @@ export function AddHealerForm({ onSubmit }) {
                                     variant="outline"
                                     size="sm"
                                     onClick={() => fileInputRef.current?.click()}
-                                    className="text-xs border-purple-200/40 dark:border-purple-800/30"
+                                    className="text-xs border-emerald-200/40 dark:border-emerald-800/30"
                                 >
                                     <Camera className="w-3.5 h-3.5 mr-1.5" />
                                     {photo ? 'Change Photo' : 'Choose Photo'}
@@ -322,7 +322,7 @@ export function AddHealerForm({ onSubmit }) {
                         <Button
                             type="submit"
                             disabled={submitting || !form.name || !form.specialisation || !form.lat || !form.lng}
-                            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                            className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600"
                         >
                             {submitting ? 'Adding...' : 'Add Healer'}
                         </Button>

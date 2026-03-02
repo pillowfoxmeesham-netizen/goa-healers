@@ -42,10 +42,10 @@ export function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
                 <Heart className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                 GoaHealers
               </span>
             </div>
@@ -130,7 +130,7 @@ export function Footer() {
         {/* Bottom Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground" data-testid="footer-copyright">
-            © {currentYear} GoaHealers. All rights reserved. Built with <Heart className="inline w-4 h-4 text-pink-500" /> for wellness.
+            © {currentYear} GoaHealers. All rights reserved. Built with <Heart className="inline w-4 h-4 text-teal-500" /> for wellness.
           </p>
 
           {/* Social Links */}
@@ -142,7 +142,7 @@ export function Footer() {
                   key={index}
                   variant="ghost"
                   size="icon"
-                  className="rounded-full hover:bg-purple-500/10"
+                  className="rounded-full hover:bg-emerald-500/10"
                   data-testid={`footer-social-${social.label.toLowerCase()}`}
                   asChild
                 >

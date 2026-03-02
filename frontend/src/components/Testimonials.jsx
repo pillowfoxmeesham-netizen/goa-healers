@@ -50,12 +50,12 @@ export function Testimonials() {
   ];
 
   return (
-    <section id="testimonials" className="py-24 bg-gradient-to-br from-purple-50/50 via-pink-50/50 to-blue-50/50 dark:from-purple-950/10 dark:via-pink-950/10 dark:to-blue-950/10" data-testid="testimonials-section">
+    <section id="testimonials" className="py-24 bg-gradient-to-br from-emerald-50/50 via-teal-50/50 to-blue-50/50 dark:from-emerald-950/10 dark:via-teal-950/10 dark:to-blue-950/10" data-testid="testimonials-section">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <h2 className="text-4xl sm:text-5xl font-bold" data-testid="testimonials-title">
-            What Our <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Community</span> Says
+            What Our <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Community</span> Says
           </h2>
           <p className="text-xl text-muted-foreground" data-testid="testimonials-subtitle">
             Real stories from real people who transformed their lives
@@ -87,7 +87,7 @@ export function Testimonials() {
                 <div className="flex items-center gap-3 pt-4 border-t">
                   <Avatar data-testid={`testimonial-avatar-${index}`}>
                     <AvatarImage src="" />
-                    <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+                    <AvatarFallback className="bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
                       {testimonial.avatar}
                     </AvatarFallback>
                   </Avatar>

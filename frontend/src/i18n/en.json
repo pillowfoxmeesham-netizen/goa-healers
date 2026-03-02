@@ -54,5 +54,8 @@
     "healer_added": "Healer added successfully!",
     "healer_removed": "Healer removed successfully!",
     "photo_uploaded": "Photo uploaded!",
+    "upload_video": "Upload Video",
+    "watch_video": "Watch Video",
+    "video_uploaded": "Video uploaded!",
     "language": "Language"
 }

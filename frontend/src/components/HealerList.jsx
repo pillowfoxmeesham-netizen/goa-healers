@@ -2,18 +2,18 @@ import React, { useRef } from 'react';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { User, MapPin, Sparkles, Navigation, Phone, MapPinned, Calendar, IdCard, Trash2, Star, Camera, Eye } from 'lucide-react';
+import { User, MapPin, Sparkles, Navigation, Phone, MapPinned, Calendar, IdCard, Trash2, Star, Camera, Eye, Video } from 'lucide-react';
 import { ScrollArea } from './ui/scroll-area';
 import { StarRating } from './StarRating';
 import { useLanguage } from '../i18n/LanguageContext';
 
-export function HealerList({ healers, onHealerSelect, selectedHealer, onRate, onDelete, onPhotoUpload, onViewProfile, backendUrl }) {
+export function HealerList({ healers, onHealerSelect, selectedHealer, onRate, onDelete, onPhotoUpload, onVideoUpload, onViewProfile, backendUrl }) {
   const { t } = useLanguage();
   if (healers.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-8 text-center" data-testid="no-healers-message">
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 flex items-center justify-center mb-4">
-          <Sparkles className="w-10 h-10 text-purple-400" />
+        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 flex items-center justify-center mb-4">
+          <Sparkles className="w-10 h-10 text-emerald-400" />
         </div>
         <h3 className="text-xl font-semibold mb-2">{t('no_healers')}</h3>
         <p className="text-muted-foreground text-sm">{t('no_healers_sub')}</p>
@@ -31,7 +31,7 @@ export function HealerList({ healers, onHealerSelect, selectedHealer, onRate, on
             </h2>
           </div>
           <div className="stats-badge px-3 py-1 rounded-full">
-            <span className="text-xs font-medium text-purple-600 dark:text-purple-400 flex items-center gap-1">
+            <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
               <Star className="w-3 h-3 fill-current" />
               {healers.filter(h => h.avg_rating > 0).length} {t('rated')}
             </span>
@@ -47,6 +47,7 @@ export function HealerList({ healers, onHealerSelect, selectedHealer, onRate, on
             onRate={onRate}
             onDelete={onDelete}
             onPhotoUpload={onPhotoUpload}
+            onVideoUpload={onVideoUpload}
             onViewProfile={onViewProfile}
             backendUrl={backendUrl}
           />
@@ -56,8 +57,9 @@ export function HealerList({ healers, onHealerSelect, selectedHealer, onRate, on
   );
 }
 
-function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPhotoUpload, onViewProfile, backendUrl }) {
+function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPhotoUpload, onVideoUpload, onViewProfile, backendUrl }) {
   const fileInputRef = useRef(null);
+  const videoInputRef = useRef(null);
   const { t } = useLanguage();
 
   const handlePhotoClick = (e) => {
@@ -78,6 +80,18 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
     e.target.value = '';
   };
 
+  const handleVideoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 50 * 1024 * 1024) {
+        alert('Video must be under 50 MB');
+        return;
+      }
+      onVideoUpload(healer.id, file);
+    }
+    e.target.value = '';
+  };
+
   const photoSrc = healer.photo_url
     ? `${backendUrl}${healer.photo_url}?t=${Date.now()}`
     : null;
@@ -85,8 +99,8 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
   return (
     <Card
       className={`healer-card cursor-pointer animate-slide-in border-l-4 ${selected
-        ? 'border-l-purple-500 bg-purple-50/80 dark:bg-purple-950/30 animate-pulse-glow'
-        : 'border-l-transparent hover:border-l-purple-300'
+        ? 'border-l-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/30 animate-pulse-glow'
+        : 'border-l-transparent hover:border-l-emerald-300'
         }`}
       style={{ animationDelay: `${index * 60}ms` }}
       onClick={() => onSelect(healer)}
@@ -100,10 +114,10 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
               <img
                 src={photoSrc}
                 alt={healer.name}
-                className="w-14 h-14 rounded-xl object-cover flex-shrink-0 shadow-md shadow-purple-500/20 border-2 border-purple-200/50 dark:border-purple-800/50"
+                className="w-14 h-14 rounded-xl object-cover flex-shrink-0 shadow-md shadow-emerald-500/20 border-2 border-emerald-200/50 dark:border-emerald-800/50"
               />
             ) : (
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center flex-shrink-0 shadow-md shadow-purple-500/20">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500 via-teal-500 to-lime-400 flex items-center justify-center flex-shrink-0 shadow-md shadow-emerald-500/20">
                 <User className="w-6 h-6 text-white" />
               </div>
             )}
@@ -142,7 +156,7 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
                     <Badge
                       key={idx}
                       variant="secondary"
-                      className="text-xs bg-purple-100/60 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border-0"
+                      className="text-xs bg-emerald-100/60 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 border-0"
                       data-testid={`spec-${healer.id}-${idx}`}
                     >
                       {spec.trim()}
@@ -167,7 +181,7 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
                 {healer.contact && (
                   <div className="flex items-start gap-2 text-xs">
                     <Phone className="w-3.5 h-3.5 text-emerald-500 mt-0.5 flex-shrink-0" />
-                    <a href={`tel:${healer.contact}`} className="text-foreground hover:text-purple-600 hover:underline break-all transition-colors">
+                    <a href={`tel:${healer.contact}`} className="text-foreground hover:text-emerald-600 hover:underline break-all transition-colors">
                       {healer.contact}
                     </a>
                   </div>
@@ -193,7 +207,7 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
 
                 {healer.uid && (
                   <div className="flex items-start gap-2 text-xs">
-                    <IdCard className="w-3.5 h-3.5 text-purple-400 mt-0.5 flex-shrink-0" />
+                    <IdCard className="w-3.5 h-3.5 text-emerald-400 mt-0.5 flex-shrink-0" />
                     <span className="text-muted-foreground font-mono">
                       {healer.uid}
                     </span>
@@ -215,7 +229,7 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
             <div className="flex gap-2 mt-3">
               <Button
                 size="sm"
-                className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-md shadow-purple-500/20 btn-press"
+                className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-md shadow-emerald-500/20 btn-press"
                 onClick={(e) => {
                   e.stopPropagation();
                   onViewProfile(healer);
@@ -228,7 +242,7 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
               <Button
                 size="sm"
                 variant="outline"
-                className="btn-press hover:border-purple-300 transition-colors"
+                className="btn-press hover:border-emerald-300 transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   const url = `https://www.google.com/maps/dir/?api=1&destination=${healer.lat},${healer.lng}`;
@@ -238,6 +252,7 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
               >
                 <Navigation className="w-4 h-4" />
               </Button>
+              {/* DISABLED FOR CLIENT DEMO — Delete button
               <Button
                 size="sm"
                 variant="outline"
@@ -252,7 +267,43 @@ function HealerCard({ healer, index, selected, onSelect, onRate, onDelete, onPho
               >
                 <Trash2 className="w-4 h-4" />
               </Button>
+              */}
+              <Button
+                size="sm"
+                variant="outline"
+                className="btn-press hover:border-emerald-300 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  videoInputRef.current?.click();
+                }}
+                title={t('upload_video')}
+                data-testid={`upload-video-${healer.id}`}
+              >
+                <Video className="w-4 h-4" />
+              </Button>
+              <input
+                ref={videoInputRef}
+                type="file"
+                accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                onChange={handleVideoChange}
+                className="hidden"
+              />
             </div>
+            {healer.video_url && (
+              <div className="mt-2">
+                <a
+                  href={`${backendUrl}${healer.video_url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 hover:underline transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                  data-testid={`watch-video-${healer.id}`}
+                >
+                  <Video className="w-3.5 h-3.5" />
+                  {t('watch_video')}
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </CardContent>

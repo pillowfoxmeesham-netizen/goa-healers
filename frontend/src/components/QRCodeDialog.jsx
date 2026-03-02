@@ -53,7 +53,7 @@ export function QRCodeDialog({ healer }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[420px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
             Location QR Code
           </DialogTitle>
           <p className="text-sm text-muted-foreground">{healer.name}</p>
@@ -76,7 +76,7 @@ export function QRCodeDialog({ healer }) {
           
           <Button 
             onClick={downloadQRCode} 
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+            className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600"
           >
             <Download className="w-4 h-4 mr-2" />
             Download QR Code

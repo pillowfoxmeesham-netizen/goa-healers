@@ -73,6 +73,7 @@ class Healer(BaseModel):
     uid: Optional[str] = None
     validity: Optional[str] = None
     photo_url: Optional[str] = None
+    video_url: Optional[str] = None
     x: Optional[float] = None
     y: Optional[float] = None
 
@@ -91,6 +92,7 @@ class HealerCreate(BaseModel):
     uid: Optional[str] = None
     validity: Optional[str] = None
     photo_url: Optional[str] = None
+    video_url: Optional[str] = None
     x: Optional[float] = None
     y: Optional[float] = None
 
@@ -424,6 +426,7 @@ async def import_healers_excel(file: UploadFile = File(...)):
             healer_data.setdefault('uid', None)
             healer_data.setdefault('validity', None)
             healer_data.setdefault('photo_url', None)
+            healer_data.setdefault('video_url', None)
             await db.healers.insert_one(healer_data)
             next_id += 1
             inserted_count += 1
@@ -447,6 +450,7 @@ async def import_healers_excel(file: UploadFile = File(...)):
             healer_data.setdefault('uid', None)
             healer_data.setdefault('validity', None)
             healer_data.setdefault('photo_url', None)
+            healer_data.setdefault('video_url', None)
             healers.append(healer_data)
             inserted_count += 1
         with open(HEALERS_JSON, "w", encoding="utf-8") as f:
@@ -552,6 +556,98 @@ async def get_healer_photo(healer_id: int):
         return Response(content=img_bytes, media_type=photo.get("content_type", "image/jpeg"))
 
     raise HTTPException(status_code=404, detail="Photo not found")
+
+
+# ── Video Storage (base64 in DB) ─────────────────────────────────────────────
+
+VIDEOS_FILE = ROOT_DIR / "videos.json"
+
+def _load_videos() -> dict:
+    """Load videos dict from local JSON file."""
+    if VIDEOS_FILE.exists():
+        with open(VIDEOS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+def _save_videos(videos: dict):
+    """Save videos dict to local JSON file."""
+    with open(VIDEOS_FILE, "w", encoding="utf-8") as f:
+        json.dump(videos, f, indent=2)
+
+
+@api_router.post("/healers/{healer_id}/video")
+async def upload_healer_video(healer_id: int, file: UploadFile = File(...)):
+    """Upload a video for a healer. Stores base64 in MongoDB and local JSON."""
+    allowed = ("video/mp4", "video/webm", "video/ogg", "video/quicktime")
+    if file.content_type not in allowed:
+        raise HTTPException(status_code=400, detail="File must be a video (MP4, WebM, OGG, or MOV)")
+
+    contents = await file.read()
+    if len(contents) > 50 * 1024 * 1024:  # 50 MB limit
+        raise HTTPException(status_code=400, detail="Video file size must be under 50 MB")
+
+    b64_data = base64.b64encode(contents).decode("utf-8")
+    content_type = file.content_type or "video/mp4"
+    video_doc = {"data": b64_data, "content_type": content_type}
+
+    video_url = f"/api/healers/{healer_id}/video"
+    logger.info(f"Video uploaded for healer {healer_id} ({len(contents)} bytes)")
+
+    # Store in MongoDB videos collection
+    try:
+        await db.videos.update_one(
+            {"healer_id": healer_id},
+            {"$set": {"healer_id": healer_id, **video_doc}},
+            upsert=True,
+        )
+        await db.healers.update_one(
+            {"id": healer_id},
+            {"$set": {"video_url": video_url}}
+        )
+        logger.info(f"Video stored in MongoDB for healer {healer_id}")
+    except Exception as e:
+        logger.warning(f"MongoDB unavailable for video, using local JSON: {e}")
+
+    # Always store in local JSON fallback too
+    videos = _load_videos()
+    videos[str(healer_id)] = video_doc
+    _save_videos(videos)
+
+    # Update video_url in healers.json
+    if HEALERS_JSON.exists():
+        with open(HEALERS_JSON, "r", encoding="utf-8") as f:
+            healers = json.load(f)
+        for h in healers:
+            if h["id"] == healer_id:
+                h["video_url"] = video_url
+                break
+        with open(HEALERS_JSON, "w", encoding="utf-8") as f:
+            json.dump(healers, f, indent=2, ensure_ascii=False)
+
+    return {"video_url": video_url}
+
+
+@api_router.get("/healers/{healer_id}/video")
+async def get_healer_video(healer_id: int):
+    """Serve a healer's video from MongoDB or local JSON fallback."""
+    # Try MongoDB first
+    try:
+        doc = await db.videos.find_one({"healer_id": healer_id})
+        if doc:
+            vid_bytes = base64.b64decode(doc["data"])
+            return Response(content=vid_bytes, media_type=doc.get("content_type", "video/mp4"))
+    except Exception as e:
+        logger.warning(f"MongoDB unavailable for video fetch: {e}")
+
+    # Fallback to local JSON
+    videos = _load_videos()
+    video = videos.get(str(healer_id))
+    if video:
+        vid_bytes = base64.b64decode(video["data"])
+        return Response(content=vid_bytes, media_type=video.get("content_type", "video/mp4"))
+
+    raise HTTPException(status_code=404, detail="Video not found")
+
 
 # ── Rating Routes (local JSON storage) ───────────────────────────────────────
 

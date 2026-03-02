@@ -10,7 +10,7 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import {
     User, MapPin, Phone, MapPinned, Calendar, IdCard, Navigation, Trash2,
-    Star, Camera, X, MessageCircle, ExternalLink,
+    Star, Camera, X, MessageCircle, ExternalLink, Video,
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
@@ -19,7 +19,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 
 // Reuse the healer icon
 const healerIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
@@ -34,9 +34,11 @@ export function HealerProfileModal({
     onRate,
     onDelete,
     onPhotoUpload,
+    onVideoUpload,
     backendUrl,
 }) {
     const fileInputRef = useRef(null);
+    const videoInputRef = useRef(null);
     const { t } = useLanguage();
 
     if (!healer) return null;
@@ -61,15 +63,27 @@ export function HealerProfileModal({
         ? `https://wa.me/91${healer.contact.replace(/\D/g, '').slice(-10)}`
         : null;
 
+    const handleVideoChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 50 * 1024 * 1024) {
+                alert('Video must be under 50 MB');
+                return;
+            }
+            onVideoUpload(healer.id, file);
+        }
+        e.target.value = '';
+    };
+
     return (
         <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-            <DialogContent className="sm:max-w-[600px] max-h-[92vh] overflow-y-auto p-0 gap-0 border-purple-200/30 dark:border-purple-800/30">
+            <DialogContent className="sm:max-w-[600px] max-h-[92vh] overflow-y-auto p-0 gap-0 border-emerald-200/30 dark:border-emerald-800/30">
                 <DialogDescription className="sr-only">
                     Detailed profile view for {healer.name}
                 </DialogDescription>
 
                 {/* Hero Section */}
-                <div className="relative bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 p-6 pb-16">
+                <div className="relative bg-gradient-to-br from-emerald-600 via-teal-500 to-lime-400 p-6 pb-16">
                     {/* Close button */}
                     <button
                         onClick={onClose}
@@ -103,7 +117,7 @@ export function HealerProfileModal({
                                 className="w-24 h-24 rounded-2xl object-cover border-4 border-background shadow-xl"
                             />
                         ) : (
-                            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center border-4 border-background shadow-xl">
+                            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-lime-400 flex items-center justify-center border-4 border-background shadow-xl">
                                 <User className="w-10 h-10 text-white" />
                             </div>
                         )}
@@ -136,7 +150,7 @@ export function HealerProfileModal({
                             {healer.specialisation.split(',').map((spec, idx) => (
                                 <Badge
                                     key={idx}
-                                    className="bg-purple-100/80 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 border-0 px-3 py-1"
+                                    className="bg-emerald-100/80 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 border-0 px-3 py-1"
                                 >
                                     {spec.trim()}
                                 </Badge>
@@ -170,7 +184,7 @@ export function HealerProfileModal({
                                         <Phone className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                                     </div>
                                     <div className="flex-1">
-                                        <a href={`tel:${healer.contact}`} className="text-sm font-medium hover:text-purple-600 transition-colors">
+                                        <a href={`tel:${healer.contact}`} className="text-sm font-medium hover:text-emerald-600 transition-colors">
                                             {healer.contact}
                                         </a>
                                     </div>
@@ -210,8 +224,8 @@ export function HealerProfileModal({
 
                             {healer.uid && (
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
-                                        <IdCard className="w-4 h-4 text-purple-500 dark:text-purple-400" />
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
+                                        <IdCard className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                                     </div>
                                     <span className="text-sm text-muted-foreground font-mono">{healer.uid}</span>
                                 </div>
@@ -233,7 +247,7 @@ export function HealerProfileModal({
                         <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                             {t('location')}
                         </h4>
-                        <div className="rounded-xl overflow-hidden border border-purple-200/30 dark:border-purple-800/30 shadow-md h-[200px]">
+                        <div className="rounded-xl overflow-hidden border border-emerald-200/30 dark:border-emerald-800/30 shadow-md h-[200px]">
                             <MapContainer
                                 center={[healer.lat, healer.lng]}
                                 zoom={14}
@@ -264,6 +278,7 @@ export function HealerProfileModal({
                         </Button>
 
 
+                        {/* DISABLED FOR CLIENT DEMO — Delete button
                         <Button
                             variant="outline"
                             className="text-red-400 hover:text-red-600 hover:bg-red-50 hover:border-red-200 dark:hover:bg-red-950/20 dark:hover:border-red-800 transition-colors btn-press"
@@ -276,6 +291,37 @@ export function HealerProfileModal({
                         >
                             <Trash2 className="w-4 h-4" />
                         </Button>
+                        */}
+                    </div>
+
+                    {/* Video Section */}
+                    <div className="flex items-center gap-3 pt-1">
+                        <Button
+                            variant="outline"
+                            className="btn-press hover:border-emerald-300 transition-colors"
+                            onClick={() => videoInputRef.current?.click()}
+                        >
+                            <Video className="w-4 h-4 mr-2" />
+                            {t('upload_video')}
+                        </Button>
+                        <input
+                            ref={videoInputRef}
+                            type="file"
+                            accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                            onChange={handleVideoChange}
+                            className="hidden"
+                        />
+                        {healer.video_url && (
+                            <a
+                                href={`${backendUrl}${healer.video_url}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 hover:underline transition-colors"
+                            >
+                                <Video className="w-4 h-4" />
+                                {t('watch_video')}
+                            </a>
+                        )}
                     </div>
                 </div>
             </DialogContent>

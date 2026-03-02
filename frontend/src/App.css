@@ -5,20 +5,50 @@ html {
 
 /* ── Blob animation ──────────────────────────────────────────────────────── */
 @keyframes blob {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(20px, -50px) scale(1.1); }
-  50% { transform: translate(-20px, 20px) scale(0.9); }
-  75% { transform: translate(50px, 50px) scale(1.05); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  25% {
+    transform: translate(20px, -50px) scale(1.1);
+  }
+
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  75% {
+    transform: translate(50px, 50px) scale(1.05);
+  }
 }
-.animate-blob { animation: blob 7s infinite; }
-.animation-delay-2000 { animation-delay: 2s; }
-.animation-delay-4000 { animation-delay: 4s; }
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
 
 /* ── Gradient animation ──────────────────────────────────────────────────── */
 @keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
+
 .animate-gradient {
   background-size: 200% 200%;
   animation: gradient-shift 8s ease infinite;
@@ -26,18 +56,34 @@ html {
 
 /* ── Floating animation for header icon ──────────────────────────────────── */
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-3px) rotate(5deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-3px) rotate(5deg);
+  }
 }
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
 
 /* ── Pulse glow for selected card ────────────────────────────────────────── */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.2); }
-  50% { box-shadow: 0 0 20px 4px rgba(168, 85, 247, 0.15); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 20px 4px rgba(16, 185, 129, 0.15);
+  }
 }
+
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
 }
@@ -48,11 +94,13 @@ html {
     opacity: 0;
     transform: translateX(-12px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
   }
 }
+
 .animate-slide-in {
   animation: slide-in 0.35s ease-out forwards;
 }
@@ -61,31 +109,41 @@ html {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: hsl(270 60% 70% / 0.3);
+  background: hsl(152 60% 50% / 0.3);
   border-radius: 10px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(270 60% 60% / 0.5);
+  background: hsl(152 60% 40% / 0.5);
 }
 
 /* ── Card hover lift ─────────────────────────────────────────────────────── */
 .healer-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
+
 .healer-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px -5px rgba(168, 85, 247, 0.15), 0 4px 10px -6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px -5px rgba(16, 185, 129, 0.15), 0 4px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
 /* ── Header shimmer animation ────────────────────────────────────────────── */
 @keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
 }
+
 .header-title {
   background-size: 200% auto;
   animation: shimmer 4s linear infinite;
@@ -95,6 +153,7 @@ html {
 .btn-press {
   transition: transform 0.1s ease;
 }
+
 .btn-press:active {
   transform: scale(0.96);
 }
@@ -106,22 +165,25 @@ html {
 
 /* ── Stats counter ───────────────────────────────────────────────────────── */
 .stats-badge {
-  background: linear-gradient(135deg, hsl(270 60% 96%), hsl(330 60% 96%));
-  border: 1px solid hsl(270 30% 90%);
+  background: linear-gradient(135deg, hsl(152 60% 96%), hsl(170 60% 96%));
+  border: 1px solid hsl(152 30% 90%);
 }
+
 .dark .stats-badge {
-  background: linear-gradient(135deg, hsl(270 30% 15%), hsl(330 30% 15%));
-  border: 1px solid hsl(270 20% 25%);
+  background: linear-gradient(135deg, hsl(152 30% 15%), hsl(170 30% 15%));
+  border: 1px solid hsl(152 20% 25%);
 }
 
 /* ── Leaflet popup polish ────────────────────────────────────────────────── */
 .leaflet-popup-content-wrapper {
   border-radius: 12px !important;
-  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.2) !important;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.2) !important;
 }
+
 .leaflet-popup-content {
   margin: 12px 16px !important;
 }
+
 .leaflet-popup-tip {
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
 }

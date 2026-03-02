@@ -8,13 +8,13 @@ export function Features() {
       icon: Heart,
       title: 'Holistic Care',
       description: 'Comprehensive healing approaches that address mind, body, and spirit for complete wellness.',
-      gradient: 'from-pink-500 to-rose-500',
+      gradient: 'from-teal-500 to-rose-500',
     },
     {
       icon: Brain,
       title: 'Mental Wellness',
       description: 'Expert practitioners specializing in mental health, meditation, and mindfulness practices.',
-      gradient: 'from-purple-500 to-indigo-500',
+      gradient: 'from-emerald-500 to-indigo-500',
     },
     {
       icon: Leaf,
@@ -38,7 +38,7 @@ export function Features() {
       icon: Shield,
       title: 'Safe & Trusted',
       description: 'Verified practitioners and secure platform ensuring your safety and privacy.',
-      gradient: 'from-red-500 to-pink-500',
+      gradient: 'from-red-500 to-teal-500',
     },
   ];
 
@@ -48,7 +48,7 @@ export function Features() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <h2 className="text-4xl sm:text-5xl font-bold" data-testid="features-title">
-            Why Choose <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">GoaHealers</span>
+            Why Choose <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">GoaHealers</span>
           </h2>
           <p className="text-xl text-muted-foreground" data-testid="features-subtitle">
             Discover the comprehensive features that make us the leading wellness platform
@@ -62,7 +62,7 @@ export function Features() {
             return (
               <Card 
                 key={index}
-                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-purple-500/50"
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-emerald-500/50"
                 data-testid={`feature-card-${index}`}
               >
                 <CardHeader>

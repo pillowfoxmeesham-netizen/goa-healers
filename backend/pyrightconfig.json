@@ -1,0 +1,15 @@
+{
+    "pythonVersion": "3.13",
+    "pythonPlatform": "Windows",
+    "pythonPath": "C:\\Users\\abise\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "venvPath": "",
+    "reportMissingImports": "warning",
+    "reportMissingModuleSource": "none",
+    "typeCheckingMode": "basic",
+    "include": [
+        "server.py",
+        "import_excel.py",
+        "seed_healers.py",
+        "migrate_photos.py"
+    ]
+}
